@@ -8,4 +8,5 @@ Verified mobile menu, direction-aware navigation, installation-stage viewer, pro
 
 Media inventory: official logo, 48 project photographs and 21 videos. Videos are user-initiated and use lightweight poster previews.
 
-Publication awaits local preview approval.
+Approved and published at https://passion-co.vercel.app. Public checks: all 106 routes/assets returned HTTP 200; mobile navigation, filters, photo galleries, video loading and both WhatsApp enquiry recipients verified. Production build passed on Vercel.
+
