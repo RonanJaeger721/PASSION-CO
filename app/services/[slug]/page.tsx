@@ -1,0 +1,10 @@
+import type {Metadata} from 'next';
+import Link from 'next/link';
+import {notFound} from 'next/navigation';
+import {services,projects} from '@/lib/content';
+import {serviceDetails} from '@/lib/service-details';
+import {Media,PageIntro,ProjectCard} from '@/components/editorial';
+import {Enquiry} from '@/components/site';
+export function generateStaticParams(){return serviceDetails.map(s=>({slug:s.slug}))}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const d=serviceDetails.find(s=>s.slug===slug);if(!d)return {title:'Service'};const s=services[d.index];return {title:s.title,description:s.text+' Passion & Co, Zimbabwe.'}}
+export default async function Service({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const d=serviceDetails.find(s=>s.slug===slug);if(!d)notFound();const s=services[d.index];const related=projects.find(p=>p.slug===d.project);return <><PageIntro label="PASSION & CO / OUR SERVICES" title={s.title} text={s.text}/><section className="wrap individual-service"><Link className="text-link" href="/services">← All services</Link><div className="service-story">{s.image!==null?<Media id={s.image} alt={`Passion & Co ${s.title.toLowerCase()}`} priority/>:<div className="service-note"><span>Working spaces,<br/><em>thoughtfully fitted.</em></span><p>Share your shop or office requirements with the team.</p></div>}<div><span className="eyebrow">SHAPED AROUND YOUR REQUIREMENTS</span><h2>What we can<br/><em>bring together.</em></h2><ul>{d.scope.map(item=><li key={item}>{item}</li>)}</ul><h3>Start with the details.</h3><p>{d.consider}</p><Link className="button dark" href={`/contact?service=${encodeURIComponent(s.title)}`}>Enquire about this service ↗</Link></div></div>{related&&<div className="related-project"><div><span className="eyebrow">SEE THE WORK</span><h2>Craftsmanship<br/><em>in context.</em></h2><p>Explore a related project, including its actual installation status and supplied photographs.</p></div><ProjectCard project={related}/></div>}</section><Enquiry/></>}
